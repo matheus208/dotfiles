@@ -1,0 +1,12 @@
+.DS_Store
+*~
+*#
+.lsp-session-v*
+.recentf
+.last-package-update-day
+amx-items
+auto-save-list/
+custom-set-variables.el
+elpa/
+projectile-bookmarks.eld
+transient/
