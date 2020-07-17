@@ -225,6 +225,10 @@ There are two things you can do about this warning:
 (use-package lsp-mode
   :hook
   ((clojure-mode . lsp))
+  :init
+  ;; Some of these don't play well with clojure-refactor, so we I disable them
+  (setq lsp-enable-indentation nil)
+  (setq lsp-enable-completion-at-point nil)
   :config
   (dolist (m '(clojure-mode))
     (add-to-list 'lsp-language-id-configuration `(,m . "clojure"))))
