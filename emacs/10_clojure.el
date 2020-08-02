@@ -4,6 +4,11 @@
   :mode (("\\.clj$" . clojure-mode)
          ("\\.cljs$" . clojure-mode)
 	 ("\\.edn$" . clojure-mode))
+  :hook
+  ((clojure-mode . rainbow-delimiters-mode)
+   (clojure-mode . subword-mode)
+   (clojure-mode . smartparens-strict-mode))
+  
   :custom
   (clojure-indent-style 'align-arguments)
   (clojure-align-forms-automatically t)
@@ -11,47 +16,59 @@
   (cider-show-error-buffer 'only-in-repl)
   (cider-font-lock-dynamically '(macro core function var deprecated))
   :init
-  (add-hook 'clojure-mode-hook
-            '(lambda ()
-               (flycheck-mode t)
-               (subword-mode t)
-               (smartparens-strict-mode t)
-               (rainbow-delimiters-mode t)
-               (clj-refactor-mode t)
-               (yas-minor-mode t)
-               (add-hook 'before-save-hook 'delete-trailing-whitespace)))
+;  (add-hook 'clojure-mode-hook
+;            '(lambda ()
+;               (flycheck-mode t)
+   ;            (subword-mode t)
+    ;           (smartparens-strict-mode t)
+  ;             (rainbow-delimiters-mode t)
+;               (clj-refactor-mode t)
+;               (yas-minor-mode t)
+;               (add-hook 'before-save-hook 'delete-trailing-whitespace))
+  
   :commands
   (clojure-mode)
+)
+
+(use-package clj-refactor
+  :ensure t
   :config
-  (use-package clj-refactor
-    :ensure t
-    :config
-    (cljr-add-keybindings-with-prefix "C-c C-r")
-    (setq cljr-clojure-test-declaration "[midje.sweet :refer :all]"
-	  clj-refactor-mode 1
-	  cljr-magic-require-namespaces
-	  '(("s"   . "schema.core")
-	    ("th"  . "common-core.test-helpers")
-	    ("gen" . "common-test.generators")
-	    ("d-pro" . "common-datomic.protocols.datomic")
-	    ("ex" . "common-core.exceptions")
-	    ("dth" . "common-datomic.test-helpers")
-	    ("t-money" . "common-core.types.money")
-	    ("t-time" . "common-core.types.time")
-	    ("d" . "datomic.api")
-	    ("m" . "matcher-combinators.matchers")
-	    ("pp" . "clojure.pprint")
-	    ("init" . "postman-aux.init")))))
+  (cljr-add-keybindings-with-prefix "C-c C-r")
+  (setq cljr-clojure-test-declaration "[midje.sweet :refer :all]"
+        clj-refactor-mode 1
+	cljr-magic-require-namespaces
+	'(("s"   . "schema.core")
+	  ("th"  . "common-core.test-helpers")
+	  ("gen" . "common-test.generators")
+	  ("d-pro" . "common-datomic.protocols.datomic")
+	  ("ex" . "common-core.exceptions")
+	  ("dth" . "common-datomic.test-helpers")
+	  ("t-money" . "common-core.types.money")
+	  ("t-time" . "common-core.types.time")
+	  ("d" . "datomic.api")
+	  ("m" . "matcher-combinators.matchers")
+	  ("pp" . "clojure.pprint")
+	  ("init" . "postman-aux.init"))))
 
 (use-package cider
   :ensure t
   :defer t
+  :hook
+  ((cider-repl-mode . subword-mode)
+   (cider-repl-mode . smartparens-strict-mode)
+   (cider-repl-mode . rainbow-delimiters-mode)
+   (cider-repl-mode . company-mode)
+   (cider-repl-mode . eldoc-mode)
+   (cider-mode . company-mode)
+   (cider-mode . clj-refactor-mode)
+   (cider-mode . eldoc-mode))
+  
   :init
-  (add-hook 'cider-mode-hook #'clj-refactor-mode)
-  (add-hook 'cider-mode-hook #'company-mode)
-  (add-hook 'cider-mode-hook #'eldoc-mode)
-  (add-hook 'cider-repl-mode-hook #'company-mode)
-  (add-hook 'cider-repl-mode-hook #'eldoc-mode)
+  ;(add-hook 'cider-mode-hook #'clj-refactor-mode)
+  ;(add-hook 'cider-mode-hook #'company-mode)
+  ;(add-hook 'cider-mode-hook #'eldoc-mode)
+  ;(add-hook 'cider-repl-mode-hook #'company-mode)
+  ;(add-hook 'cider-repl-mode-hook #'eldoc-mode)
   :diminish subword-mode
   :config
   (setq nrepl-log-messages t

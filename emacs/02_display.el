@@ -35,21 +35,25 @@
 (use-package all-the-icons
   :ensure t)
 
-(use-package doom-themes
-  :ensure t
-  :custom
-  (doom-themes-enable-italic t)
-  (doom-themes-enable-bold t)
-  (doom-challenger-deep-brighter-comments t)
-  (doom-molokai-brighter-comments t)
-  (doom-dracula-brighter-comments t)
-  :custom-face
-  ;; (default ((t (:background "#22232e"))))
-  ;; (doom-modeline-bar ((t (:background "#6272a4"))))
-  ;; (font-lock-comment-face ((t (:foreground "#e0e0e0"))))
-  :config
-  (doom-themes-neotree-config)
-  (doom-themes-org-config))
+;; (use-package doom-themes
+;;   :ensure t
+;;   :custom
+;;   (doom-themes-enable-italic t)
+;;   (doom-themes-enable-bold t)
+;;   (doom-challenger-deep-brighter-comments t)
+;;   (doom-molokai-brighter-comments t)
+;;   (doom-dracula-brighter-comments t)
+;;   :custom-face
+;;   ;; (default ((t (:background "#22232e"))))
+;;   ;; (doom-modeline-bar ((t (:background "#6272a4"))))
+;;   ;; (font-lock-comment-face ((t (:foreground "#e0e0e0"))))
+;;   :config
+;;   (doom-themes-neotree-config)
+;;   (doom-themes-org-config))
+
+(add-to-list 'load-path "~/.emacs.d/elegant-emacs")
+(require 'elegance)
+(require 'sanity)
 
 (use-package highlight-indent-guides
   :ensure t
@@ -115,6 +119,7 @@
   :bind ("C-x C-o" . ace-window))
 
 (use-package dashboard
+  :ensure t
   :demand
   :diminish (dashboard-mode page-break-lines-mode)
   :init
@@ -151,7 +156,32 @@
     (goto-char (point-min))
     (delete-other-windows)))
 
+(use-package whitespace
+  :ensure t
+  :delight
+  :config
+  (setq whitespace-style '(space-mark tab-mark face spaces trailing))
+  (setq whitespace-display-mappings
+        '(
+          ;; (space-mark   ?\     [?\u00B7]     [?.]) ; space - centered dot
+          (space-mark   ?\xA0  [?\u00A4]     [?_]) ; hard space - currency
+          (space-mark   ?\x8A0 [?\x8A4]      [?_]) ; hard space - currency
+          (space-mark   ?\x920 [?\x924]      [?_]) ; hard space - currency
+          (space-mark   ?\xE20 [?\xE24]      [?_]) ; hard space - currency
+          (space-mark   ?\xF20 [?\xF24]      [?_]) ; hard space - currency
+          (space-mark ?\u3000 [?\u25a1] [?_ ?_]) ; full-width-space - square
+          (tab-mark     ?\t    [?\u00BB ?\t] [?\\ ?\t]) ; tab - left quote mark
+          ))
+  (setq whitespace-space-regexp "\\(\u3000+\\)")
+  (set-face-foreground 'whitespace-space "cyan")
+  (set-face-background 'whitespace-space 'nil)
+  (set-face-underline  'whitespace-trailing t)
+  (set-face-foreground 'whitespace-trailing "cyan")
+  (set-face-background 'whitespace-trailing 'nil))
+(global-whitespace-mode)
+
 ;;awesome-tab
 ;;fill-column-indicator
 ;;presentation
 ;;volatile-highlights
+

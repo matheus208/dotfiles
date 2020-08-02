@@ -4,7 +4,7 @@
   :commands
   (magit-status magit-dispatch-popup magit-list-repositories)
   :custom
-  (magit-repository-directories '(("~/repos/" . 3))))
+  (magit-repository-directories '(("~/dev/nu/" . 2))))
 
 (use-package smartparens
   :ensure t
