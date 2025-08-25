@@ -170,8 +170,13 @@ controlinho() {
 
 export SBT_OPTS="-Xms512M -Xmx12000M -Xss2M -XX:MaxMetaspaceSize=4096M"
 
-export PATH="${HOME}/.jenv/bin:${PATH}"
-eval "$(jenv init -)"
+if command -v jenv >/dev/null 2>&1; then
+  export PATH="${HOME}/.jenv/bin:${PATH}"
+  eval "$(jenv init -)"
+fi
+
+# Doom Emacs
+export PATH="~/.config/emacs/bin:${PATH}"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
